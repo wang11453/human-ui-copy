@@ -65,7 +65,7 @@ Environment leakage — a public artifact written as if the author's machine wer
 
 **Code-block tells** — `// ... rest of code`; comments restating the code; pseudocode labelled runnable; hallucinated APIs; one example showing five unrelated features.
 
-**Rules** — abstract the environment · no personal identifiers · no OS assumptions · concrete examples, generic defaults.
+**Rules** — abstract the environment; no personal identifiers; no OS assumptions; concrete examples, generic defaults.
 
 ## Page states (SPA, SSR, SSG)
 
@@ -106,6 +106,6 @@ Applying this skill badly creates a new tell.
 
 ## Contributing
 
-- **Convertible to `must`** (enumerable, mechanical): missing states · leftover task notes / `console.log` · hardcoded paths · unsourced numbers · visual order ≠ DOM order · more than three hardcoded identical cards.
-- **Stays `judgement`** (needs context): "sounds human" · "too even" · whether a project-specific detail is *useful* · whether a template shape is justified by the product.
+- **Convertible to `must`** (enumerable, mechanical): missing states; leftover task notes / `console.log`; hardcoded paths; unsourced numbers; visual order ≠ DOM order; more than three hardcoded identical cards.
+- **Stays `judgement`** (needs context): "sounds human"; "too even"; whether a project-specific detail is *useful*; whether a template shape is justified by the product.
 - **Method**: replace a feeling with a countable fact. "Three or more cards with no data source" can be `must`; "this page feels generated" cannot.
