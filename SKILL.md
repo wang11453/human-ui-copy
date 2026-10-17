@@ -112,7 +112,7 @@ Component-library shapes (data-driven, reused); accessibility attributes; a prod
 
 ## Audit before delivery
 
-**Copy** — `must`: no leftover task notes / requirement text / `console.log`; no `·` note rows; no architecture claim outside a commitment slot; no author environment in public artifacts; link text stands alone. `judgement`: comments explain why, not what · "sounds human" = 0.
+**Copy** — `must`: no leftover task notes / requirement text / `console.log`; no `·` note rows; no architecture claim outside a commitment slot; no author environment in public artifacts; link text stands alone. `judgement`: comments explain why, not what; "sounds human" = 0.
 
 **Structure** — `must`: all page states exist; every number sourced; visual order = DOM order; at most one grid break, decoration only; decorative extras `aria-hidden`; no over-correction tells. `judgement`: "too even" = 0 (external) / ≤1 (internal); grid shapes pass the justification test; library components left alone.
 
