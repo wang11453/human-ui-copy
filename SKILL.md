@@ -9,7 +9,7 @@ license: MIT
 > Write about what the user gets. Never report what the code does.
 > When it looks too even, break it once — without breaking the product, and without over-correcting.
 
-**Full details:** [`references/appendix.md`](references/appendix.md) · **Sample output:** [`references/audit-report.md`](references/audit-report.md)
+**Full details:** [`references/appendix.md`](references/appendix.md). **Sample output:** [`references/audit-report.md`](references/audit-report.md)
 
 ## TL;DR
 
@@ -39,16 +39,16 @@ This is a **heuristic checklist, not a linter**. Never override the project's de
 
 Every audit line is `must` (objective) or `judgement` (needs a reviewer). Anchors:
 
-**"Is the page too even?"** — 0: one section is visibly heavier, plus a project-only detail · 1: sections differ, but nothing project-specific · 2: all sections same shape, page swappable with another product's.
+**"Is the page too even?"** — 0: one section is visibly heavier, plus a project-only detail; 1: sections differ, but nothing project-specific; 2: all sections same shape, page swappable with another product's.
 
-**"Does the copy sound human?"** — 0: every sentence actionable, none explains the build · 1: one or two sentences describe the implementation · 2: the page explains its own architecture to visitors.
+**"Does the copy sound human?"** — 0: every sentence actionable, none explains the build; 1: one or two sentences describe the implementation; 2: the page explains its own architecture to visitors.
 
 Boundary: `1` is fine internally; on customer-facing pages push to 0. Reduce disagreement by **anchoring on evidence**, two-pass blind review, the **delete test** (removing the sentence changes nothing for the visitor → it was leakage) and the **swap test** (replace the product name with a competitor's).
 
 ## Copy rules
 
 1. **Perspective** — user-side benefit, not implementation proof.
-   `Runs locally. Results in a second.` ✅ · `Generation is completed locally - content never leaves the browser` ❌
+   `Runs locally. Results in a second.` ✅ / `Generation is completed locally - content never leaves the browser` ❌
 2. **Punctuation** — no `·` / `•` separators inside prose; no subject-less fragments.
 3. **Placement** — architecture and security claims only in commitment slots (hero, privacy page, onboarding), never in corner notes.
 
@@ -56,7 +56,7 @@ More tells (including code comments and shipped JS): [appendix#copy-tells](refer
 
 ## Structure rules
 
-Ten fingerprints: centered hero · three cards, always three · gradient + glass + big radius · emoji icons · `·` note rows · invented stats · FAQ + closing CTA · marketing filler · motion without logic · happy path only.
+Ten fingerprints: centered hero; three cards, always three; gradient + glass + big radius; emoji icons; `·` note rows; invented stats; FAQ + closing CTA; marketing filler; motion without logic; happy path only.
 
 **Before calling any of these a problem, run the justification test:**
 
@@ -65,7 +65,7 @@ Ten fingerprints: centered hero · three cards, always three · gradient + glass
 3. Hardcoded, or `map`/`v-for`/CMS-driven?
 4. Does it come from a component library? (origin + site-wide reuse + data-driven = library shape → leave it alone.)
 
-**Fixes** — delete half · one accent color · break the grid exactly once, in decoration · keep one project-only detail with real information · add the missing states.
+**Fixes** — delete half; one accent color; break the grid exactly once, in decoration; keep one project-only detail with real information; add the missing states.
 
 **Red lines** — never trade usability for personality; contrast, hit areas, focus order and keyboard reachability come first; a second "special" element cancels the first.
 
@@ -81,7 +81,7 @@ Ten fingerprints: centered hero · three cards, always three · gradient + glass
 
 ## Page states
 
-Audit **every state**, not the demo: empty · loading · error · full/long · offline. A page that only looks finished at 100% data has not been audited.
+Audit **every state**, not the demo: empty, loading, error, full/long, offline. A page that only looks finished at 100% data has not been audited.
 
 - **SPA** — route changes need focus management and document title updates; virtualized lists need accessible counts.
 - **SSR / SSG** — also audit the pre-hydration shell (initial HTML), the hydration flash (placeholder replaced or content jumping), and the no-JS read-through.
@@ -98,7 +98,7 @@ Examples: [appendix#over-correction](references/appendix.md#over-correction)
 
 ## Not AI flavor (whitelist)
 
-Component-library shapes (data-driven, reused) · accessibility attributes · a product that genuinely has three features · template layout in `prototype` mode · marketing conventions · statistics with a real source · consistent design-system radii and spacing · minimalism because the product is small.
+Component-library shapes (data-driven, reused); accessibility attributes; a product that genuinely has three features; template layout in `prototype` mode; marketing conventions; statistics with a real source; consistent design-system radii and spacing; minimalism because the product is small.
 
 ## Agent usage
 
@@ -112,8 +112,8 @@ Component-library shapes (data-driven, reused) · accessibility attributes · a 
 
 ## Audit before delivery
 
-**Copy** — `must`: no leftover task notes / requirement text / `console.log` · no `·` note rows · no architecture claim outside a commitment slot · no author environment in public artifacts · link text stands alone. `judgement`: comments explain why, not what · "sounds human" = 0.
+**Copy** — `must`: no leftover task notes / requirement text / `console.log`; no `·` note rows; no architecture claim outside a commitment slot; no author environment in public artifacts; link text stands alone. `judgement`: comments explain why, not what · "sounds human" = 0.
 
-**Structure** — `must`: all page states exist · every number sourced · visual order = DOM order · at most one grid break, decoration only · decorative extras `aria-hidden` · no over-correction tells. `judgement`: "too even" = 0 (external) / ≤1 (internal) · grid shapes pass the justification test · library components left alone.
+**Structure** — `must`: all page states exist; every number sourced; visual order = DOM order; at most one grid break, decoration only; decorative extras `aria-hidden`; no over-correction tells. `judgement`: "too even" = 0 (external) / ≤1 (internal); grid shapes pass the justification test; library components left alone.
 
 **i18n** — `must`: states exist in every shipped language. `judgement`: filler removed per language, not translated from one list.
