@@ -54,7 +54,7 @@ Ask: is the count driven by content? Does deleting one lose information? Is each
 
 Environment leakage — a public artifact written as if the author's machine were everyone's:
 
-- Absolute paths (`D:\CodeX\…`, `/Users/me/…`)
+- Absolute paths (`C:\Users\me\project\…`, `/Users/me/…`, `D:\work\…`)
 - Real usernames, hostnames, account IDs, e-mails in commands or screenshots
 - Internal repo names, intranet IPs
 - The author's tool names as if universal
