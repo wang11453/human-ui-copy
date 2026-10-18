@@ -70,14 +70,19 @@ PROFILES = {
 }
 
 
+def blank(match):
+    """Replace a matched span with spaces, keeping every newline so line numbers stay true."""
+    return "".join("\n" if ch == "\n" else " " for ch in match.group(0))
+
+
 def strip_code(html):
     """Blank out blocks and spans that legitimately contain literal tells."""
-    out = BLOCK_RE.sub(lambda m: " " * len(m.group(0)), html)
-    out = INLINE_CODE_RE.sub(lambda m: " " * len(m.group(0)), out)
-    out = QUOTED_RE.sub(lambda m: " " * len(m.group(0)), out)
-    out = STYLE_ATTR_RE.sub(lambda m: " " * len(m.group(0)), out)
+    out = BLOCK_RE.sub(blank, html)
+    out = INLINE_CODE_RE.sub(blank, out)
+    out = QUOTED_RE.sub(blank, out)
+    out = STYLE_ATTR_RE.sub(blank, out)
     # visible text only: attribute values (SVG filter x="-50%", style, class) are not prose
-    out = TAG_RE.sub(lambda m: " " * len(m.group(0)), out)
+    out = TAG_RE.sub(blank, out)
     return out
 
 
@@ -100,13 +105,15 @@ def iter_files(root):
                 yield os.path.join(dirpath, name)
 
 
-def ignored(lines, lineno):
+def ignored(lines, lineno, code_only=False):
     if not (0 < lineno <= len(lines)):
         return False
     if RE_IGNORE.search(lines[lineno - 1]):
         return True
-    # bundled/minified code lives on enormous single lines; never a page's own tell
-    return len(lines[lineno - 1]) > MINIFIED_LINE
+    # Minified bundles live on enormous single lines. Only code rules may skip them:
+    # a hand-written HTML line with many data attributes can also exceed the limit,
+    # and its prose tells are real.
+    return code_only and len(lines[lineno - 1]) > MINIFIED_LINE
 
 
 def check_file(path, root, profile="generic", claims=False):
@@ -119,8 +126,8 @@ def check_file(path, root, profile="generic", claims=False):
 
     must, warn = [], []
 
-    def add(rule, level, lineno, evidence):
-        if ignored(lines, lineno):
+    def add(rule, level, lineno, evidence, code_only=False):
+        if ignored(lines, lineno, code_only=code_only):
             return
         if level == "must":
             must.append((rel, lineno, rule, evidence))
@@ -128,9 +135,9 @@ def check_file(path, root, profile="generic", claims=False):
             warn.append((rel, lineno, rule, evidence))
 
     for m in RE_CONSOLE.finditer(raw):
-        add("console residue", sev["console"], line_of(raw, m.start()), m.group(0))
+        add("console residue", sev["console"], line_of(raw, m.start()), m.group(0), code_only=True)
     for m in RE_DEBUGGER.finditer(raw):
-        add("debugger statement", sev["debugger"], line_of(raw, m.start()), m.group(0).strip())
+        add("debugger statement", sev["debugger"], line_of(raw, m.start()), m.group(0).strip(), code_only=True)
 
     for m in RE_MIDDOT.finditer(text):
         snippet = text[max(0, m.start() - 24):m.end() + 24].replace("\n", " ").strip()
