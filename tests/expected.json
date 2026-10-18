@@ -1,0 +1,12 @@
+{
+  "target": "tests/fixtures/bad-page.html",
+  "must": {
+    "console residue": 2,
+    "debugger statement": 1,
+    "middot separator in prose": 4,
+    "absolute path": 1
+  },
+  "warn_min": {
+    "number without a visible source": 2
+  }
+}
