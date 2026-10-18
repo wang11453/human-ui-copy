@@ -168,6 +168,8 @@ So the division of labour is: the script counts four patterns, the **agent judge
 
 **Measured false-positive history (2026-10-18):** a 1737-line game page produced 96 musts under `generic` (all table separators) and 0 under `game`; a real page with a bundled library produced 2 more (minified `console.warn`); SVG filter attributes produced 4 more (`x="-50%" width="200%"`). All four classes are fixed, and each one is listed above so the fix is auditable.
 
+**Fixed bug worth remembering (2026-10-18, reported by another agent):** `strip_code` blanked script/style/pre blocks with spaces — including their newlines — so on long pages every reported line number was shifted (877 reported as 222 on a 3000-line page). `blank()` now keeps every `\n`, and `tests/run_tests.py` asserts the offset stays zero. Lesson: when you blank a span for scanning, keep the line structure, or every position you report becomes a lie.
+
 ## Game and entertainment products (whitelist)
 
 Games are full of things this skill would otherwise flag. These are conventions, not AI flavor:
