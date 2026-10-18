@@ -48,6 +48,24 @@ def main():
         if got < want:
             failures.append("warn  %-32s want >=%d got %d" % (rule, want, got))
 
+    # line numbers must survive block stripping: a <style> block before the tell
+    # used to shift every reported line (877 was reported as 222 on a long page).
+    import tempfile
+
+    html = "<style>\n.a{}\n.b{}\n</style>\n<p>ok</p>\n<p>甲 · 乙</p>\n"
+    fd, tmp = tempfile.mkstemp(suffix=".html")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(html)
+        lmust, _, _ = checker.check_file(tmp, tmp, "generic")
+        want = html.split("\n").index("<p>甲 · 乙</p>") + 1
+        got = lmust[0][1] if lmust else None
+        if got != want:
+            failures.append("line    reported line %s, expected %s "
+                            "(block stripping must keep newlines)" % (got, want))
+    finally:
+        os.unlink(tmp)
+
     print("fixture:", os.path.relpath(fixture, ROOT))
     print("must counts:", must_counts)
     print("warn counts:", warn_counts)
