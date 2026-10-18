@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Split · template page (every AI tell on purpose)</title>
+<style>
+  /* This page is a fixture: it contains every structural tell on purpose. */
+  :root { --brand: #6d5efc; --brand-2: #4ac4ff; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: #1b1b1f; background: #f6f5ff;
+  }
+  .hero {
+    text-align: center; padding: 96px 24px 72px;
+    background: linear-gradient(160deg, #efe9ff 0%, #e6f4ff 100%);
+  }
+  .hero h1 { margin: 0 0 16px; font-size: 48px; letter-spacing: -1px; }
+  .hero p { margin: 0 auto 32px; max-width: 560px; color: #5b5b6b; font-size: 18px; }
+  .btn {
+    display: inline-block; padding: 14px 28px; border-radius: 14px; font-weight: 600;
+    text-decoration: none; margin: 0 6px; transition: all .3s ease;
+  }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost { border: 1px solid #cfcbe8; color: #3b3b4a; background: rgba(255,255,255,.6); }
+  .glass {
+    max-width: 960px; margin: -48px auto 0; padding: 8px;
+    background: rgba(255,255,255,.55); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.8); border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(80, 60, 200, .12);
+  }
+  .stats { display: flex; justify-content: center; gap: 48px; padding: 28px 0; }
+  .stats b { display: block; font-size: 28px; color: var(--brand); }
+  .stats span { font-size: 13px; color: #6b6b7b; }
+  .cards {
+    max-width: 1040px; margin: 0 auto; padding: 72px 24px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .card {
+    background: #fff; border-radius: 24px; padding: 28px;
+    box-shadow: 0 8px 30px rgba(30, 20, 80, .06); text-align: center;
+  }
+  .card .ico { font-size: 32px; }
+  .card h3 { margin: 12px 0 8px; font-size: 18px; }
+  .card p { margin: 0; color: #66667a; font-size: 15px; }
+  .note { text-align: center; color: #8a8a9a; font-size: 13px; padding: 8px 0 40px; }
+  .cta { text-align: center; padding: 72px 24px; background: #fff; }
+  .cta h2 { margin: 0 0 12px; font-size: 30px; }
+  details { max-width: 720px; margin: 24px auto; text-align: left; padding: 0 24px; }
+  summary { cursor: pointer; padding: 12px 0; font-weight: 600; border-bottom: 1px solid #eee; }
+  footer { text-align: center; padding: 32px; color: #9a9aab; font-size: 13px; }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <h1>Split any PDF in one click</h1>
+    <p>A modern, seamless tool to split, merge and rearrange your PDF files effortlessly.</p>
+    <a class="btn btn-primary" href="#">Get started</a>
+    <a class="btn btn-ghost" href="#">See how it works</a>
+  </section>
+
+  <div class="glass">
+    <div class="stats">
+      <div><b>10k+</b><span>happy users</span></div>
+      <div><b>99.9%</b><span>uptime</span></div>
+      <div><b>24/7</b><span>support</span></div>
+    </div>
+  </div>
+
+  <section class="cards">
+    <div class="card"><div class="ico">🚀</div><h3>Lightning fast</h3><p>Powered by a modern engine.</p></div>
+    <div class="card"><div class="ico">✨</div><h3>Beautifully simple</h3><p>No learning curve at all.</p></div>
+    <div class="card"><div class="ico">🔒</div><h3>Private by design</h3><p>Your files stay private.</p></div>
+  </section>
+
+  <p class="note">Processing happens in your browser · files never leave your device · no upload required</p>
+
+  <section class="cta">
+    <h2>Ready to get started?</h2>
+    <a class="btn btn-primary" href="#">Get started</a>
+    <details><summary>Is my file uploaded?</summary><p>No. Everything runs locally.</p></details>
+    <details><summary>Does it work offline?</summary><p>Yes, once the page is loaded.</p></details>
+  </section>
+
+  <footer>Built with ❤️ by the team · C:\Users\me\projects\pdf-split\dist</footer>
+
+  <script>
+    document.querySelectorAll('.btn').forEach(function (b) {
+      b.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        console.log('cta clicked', b.textContent);
+        debugger;
+      });
+    });
+  </script>
+</body>
+</html>
