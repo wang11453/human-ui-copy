@@ -104,6 +104,99 @@ Applying this skill badly creates a new tell.
 - `prefers-reduced-motion` applies to intentional animation too.
 - Contrast and hit areas are defects, never style.
 
+## The checker (`check.py`)
+
+Mechanical `must` items get a script so the same audit can be re-run and compared:
+
+```
+python check.py <file-or-dir>          # human-readable
+python check.py <file-or-dir> --json   # machine-readable
+python tests/run_tests.py              # regression against tests/fixtures
+```
+
+What it checks: `console.*` residue, `debugger`, middot note rows in prose, absolute paths, numbers without a visible source (warn only), and whether any empty/loading/error state exists at all (warn only).
+
+Scoping rules worth knowing:
+
+- `.md` files never fail — documentation has to quote the tells it bans, so findings there are notes.
+- Inline code and 「…」-quoted spans are ignored for prose rules.
+- `tests/` and `examples/` are skipped on directory scans (they contain deliberate tells); point the script at a file inside them to see it work.
+- It reports counts, not judgements. "395 SVGs" is a count; "fix the icon-only buttons first" is the audit.
+
+## The checker (`check.py`)
+
+Mechanical items get a script so the same audit can be re-run and compared:
+
+```
+python check.py <file-or-dir>                          # generic
+python check.py <file-or-dir> --profile game|tool|marketing
+python check.py <file-or-dir> --json
+python tests/run_tests.py                              # regression against tests/fixtures
+```
+
+Profiles exist because the whitelist has to reach the script:
+
+| Profile | Separators | Numeric claims | Structural musts |
+|---|---|---|---|
+| `generic` | must | warn | enforced |
+| `tool` | must | warn | enforced |
+| `marketing` | warn | warn | skipped |
+| `game` | warn | skipped | enforced (states still matter) |
+
+What it checks: `console.*` residue, `debugger`, middot separators in prose, and absolute paths. Numeric claims are **opt-in** (`--claims`), because content that states real numbers has no "source" to cite.
+
+Scoping rules worth knowing:
+
+- `.md` files never fail — documentation has to quote the tells it bans.
+- Inline code and 「…」-quoted spans are ignored for prose rules; so are tag attributes and `<script>`/`<style>` blocks.
+- Lines longer than 400 characters are treated as bundled code and skipped; `*.min.js` / `*.min.css` are never scanned.
+- `tests/` and `examples/` are skipped on directory scans (they contain deliberate tells).
+- Any line can be exempted with a `hui-check: ignore` comment.
+
+**A green run is not a pass.** What the checker cannot see, on purpose or by limitation:
+
+- `console["log"]`, `console?.log`, or a log bundled into a line over 400 characters
+- `&middot;` / `&#183;` entities, and any separator produced at runtime
+- UNC paths (`\\server\share`) and `file:///` URLs
+- text built in JS, CSS-in-JS, or template literals
+- every state that only exists after the page runs: empty, loading, error, offline
+- anything the profile deliberately downgrades
+
+So the division of labour is: the script counts four patterns, the **agent judges** everything else. A silent run means "no mechanical finding", not "this page is fine". Never report a green run as an approval.
+
+**False-positive policy (measured).** Nine pages of a live hand-written site — home, game index, tool index, one calculator, the lab, docs, feedback, the team page, a user page — produce **0 must and 0 warn**. The demo pages that are supposed to fail still produce 7 and 6. The target is that a clean page says nothing at all; a checker that cries wolf gets ignored.
+
+**Measured false-positive history (2026-10-18):** a 1737-line game page produced 96 musts under `generic` (all table separators) and 0 under `game`; a real page with a bundled library produced 2 more (minified `console.warn`); SVG filter attributes produced 4 more (`x="-50%" width="200%"`). All four classes are fixed, and each one is listed above so the fix is auditable.
+
+## Game and entertainment products (whitelist)
+
+Games are full of things this skill would otherwise flag. These are conventions, not AI flavor:
+
+- **Flavor copy** — world-building text, item descriptions, NPC lines. Length and rhythm are intentional.
+- **Ceremony** — staged reveals, unskippable intros, victory screens.
+- **Feedback animation** — shake, flash, pop, because the action needs to feel like something.
+- **Rule explanations** — dense how-to-play text that a marketing page would never ship.
+- **Achievement toasts and progress bars** — celebration by design.
+- **Exaggerated statistics** — a "-90% damage" badge is a game number, not a claim.
+
+Still applies: empty/error states (a dead lobby with no message is still a bug), link and button text, focus order.
+
+Game state checklist: **first play** (before any save), **end state** (win/lose/credits), **bankrupt/spent** (zero currency, no items), **return visit** (save exists, but days later).
+
+## Component-library default looks
+
+Independent of structure, some pages read as generated because they kept a library's default skin:
+
+| Default look | What it signals | Fix |
+|---|---|---|
+| shadcn defaults, untouched | "generated dashboard" | change the tokens (radius, shadow, spacing scale) |
+| Tailwind's default blue (`blue-500/600`) | "no decision was made" | one brand accent, neutral greys elsewhere |
+| Inter everywhere, no type scale | "template" | pick a pairing or a scale with contrast |
+| Lucide/Feather icons at default 24px | "starter kit" | adjust optical size and stroke, or draw one icon |
+| Uniform `rounded-xl` on every surface | "AI polish" | vary by hierarchy: inputs sharper, cards softer |
+
+The library owns the shape; the tokens, the type scale and the one bespoke detail are yours.
+
 ## Contributing
 
 - **Convertible to `must`** (enumerable, mechanical): missing states; leftover task notes / `console.log`; hardcoded paths; unsourced numbers; visual order ≠ DOM order; more than three hardcoded identical cards.
