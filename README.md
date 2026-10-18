@@ -47,8 +47,26 @@
 | [`references/`](references/) | 详细案例、语言指纹、SSR/SPA、示例报告（按需加载，不是必需品） |
 | [`references/appendix.md`](references/appendix.md) | 详细案例、语言指纹、SSR/SPA、过度修正对照、贡献说明 |
 | [`references/audit-report.md`](references/audit-report.md) | 一份完整的审计报告样例（输出长什么样） |
+| [`check.py`](check.py) | 机械 `must` 项的检查脚本（客观项报 must，其余一律 warn） |
+| [`examples/`](examples/) | before/after 对照页：同一个产品的两种写法 |
+| [`examples/WALKTHROUGH.md`](examples/WALKTHROUGH.md) | **改写工序**：从 template 到 human 的七步记录（哪节变重、哪个数字换掉、状态插在哪） |
+| [`tests/`](tests/) | `check.py` 的金样本夹具与回归测试 |
 
 `SKILL.md` 只保留判断必需的东西，长案例都在 appendix —— 避免 agent 读技能时 token 压力过大。
+
+## 不是只会审：审 → 改 → 验
+
+```
+Judge     0–2 标尺 + must 清单，先判断哪里是 AI 味
+Transform 七步工序（见 examples/WALKTHROUGH.md）：
+          ① 盘点是内容还是装饰 ② 只留一个"重"的段落，且必须是任务本身
+          ③ 编的数字换成可核的限制 ④ 卖点网格换成机制说明
+          ⑤ 补上可见的空态 ⑥ 角落声明挪进承诺位 ⑦ 留一条诚实的局限
+Verify    自评分（均匀度 / 文案 / 过度修正 / 状态）+ check.py，不合格就回到对应的那一步
+```
+
+**remediation 模式的产出是三件**：报告、**补丁**（不直接改）、**自评分** —— 人确认后才应用。
+
 
 ## 快速使用
 
@@ -57,6 +75,29 @@
 > 使用 human-ui-copy，模式 = `delivery`。输出审计报告：`must` 项逐条 是/否 + 证据；`judgement` 项 0–2 分 + 引用片段 + 依据哪个锚点；结尾给建议清单（`must` 优先）。**不要自动修改 `judgement` 相关内容** —— 只出报告，人来决定。
 
 也可以直接当人工 code review 的清单用，不需要 agent。
+
+## 跑检查脚本
+
+机械的 `must` 项不用人眼，用脚本：
+
+```
+python check.py <文件或目录>          # 人读
+python check.py <文件或目录> --json   # 机读
+python tests/run_tests.py             # 回归（金样本夹具）
+```
+
+它只报能客观核对的东西：残留调试输出、`·` 注记行、绝对路径、无来源数字、整套状态缺失。
+`.md` 文件一律只报 warn —— 文档本来就得引用它自己禁的那些符号。
+
+## 看一眼前后对比
+
+[`examples/template.html`](examples/template.html) 是同一个产品按 AI 默认模板写出来的样子，
+[`examples/human.html`](examples/human.html) 是同一份内容、按人写的版本。两个文件双击就能开，不用构建。
+
+```
+check.py examples/template.html   → 7 个 must
+check.py examples/human.html      → 0 个 must
+```
 
 ## 两种模式与三档环境
 
